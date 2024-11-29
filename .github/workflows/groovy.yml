@@ -24,6 +24,11 @@ jobs:
         echo "PATH=$PATH:/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_ENV
       shell: bash
 
+    - name: Export JAVA_HOME and PATH
+      run: |
+        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+        export PATH=$JAVA_HOME/bin:$PATH
+
     - name: Verify Java installation
       run: |
         echo $JAVA_HOME
