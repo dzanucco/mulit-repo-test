@@ -26,4 +26,4 @@ jobs:
         CLASSPATH="/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar"
     - name: Run Test
       run: |
-        /opt/groovy-4.0.9/bin/groovy Groovy/Tests/FeatureConfigDbModuleTests.groovy  
+        /opt/groovy-4.0.9/bin/groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
