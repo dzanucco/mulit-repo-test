@@ -10,13 +10,14 @@ on:
 
 jobs:
   groovy:
-    name: dotnet test and build
+    name: Groovy Tests
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v4
     - name: Install Groovy
       run: |
-        apt install zip unzip  
+        apt-get update
+        apt-get install zip unzip  
         wget https://www.apache.org/dyn/closer.lua/groovy/4.0.9/distribution/apache-groovy-binary-4.0.9.zip?action=download
         unzip apache-groovy-binary-4.0.9.zip\?action\=download -d /opt
         PATH="$PATH:/opt/groovy-4.0.9/bin"
