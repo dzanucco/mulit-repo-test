@@ -18,7 +18,7 @@ jobs:
     - name: Install OpenJDK
       run: |
         sudo apt update
-        sudo apt install -y default-jre
+        sudo apt install -y openjdk-17-jre
         echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
         echo "PATH=$PATH:/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_ENV
 
@@ -59,4 +59,4 @@ jobs:
 
     - name: Run Test
       run: |
-        groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
+        /opt/groovy-4.0.9/bin/groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
