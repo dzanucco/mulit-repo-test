@@ -14,11 +14,20 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v4
-    - name: Install Java JRE
+
+    - name: Install default JRE
+      run: sudo apt update && sudo apt install -y default-jre
+
+    - name: Set JAVA_HOME environment variable
       run: |
-        sudo apt-get update
-        sudo apt-get install -y default-jre
-        java --version
+        echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
+        echo "PATH=$PATH:/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Verify Java installation
+      run: |
+        echo $JAVA_HOME
+        java -version
 
     - name: Install Groovy & Test Framework
       run: |
@@ -29,7 +38,10 @@ jobs:
         wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.47.0.0/sqlite-jdbc-3.47.0.0.jar -O /opt/sqlite-jdbc.jar
         wget https://repo1.maven.org/maven2/org/spockframework/spock-core/2.3-groovy-4.0/spock-core-2.3-groovy-4.0.jar -O /opt/spock-core.jar
         wget https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar -O /opt/slf4j-simple.jar
-        CLASSPATH="/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar"
+
+    - name: Set CLASSPATH environment variable
+      run: echo "CLASSPATH=/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar" >> $GITHUB_ENV
+
     - name: Run Test
       run: |
         /opt/groovy-4.0.9/bin/groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
