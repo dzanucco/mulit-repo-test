@@ -30,16 +30,17 @@ jobs:
         echo "PATH=$PATH:/opt/groovy-4.0.9/bin" >> $GITHUB_ENV
         rm -rf groovy.zip
 
-    - name: Install SQLite JDBC Driver
-      run: wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.47.0.0/sqlite-jdbc-3.47.0.0.jar -O /opt/sqlite-jdbc.jar
-
-    - name: Install Spock and SLF4J Dependencies
+    - name: Install SQLite JDBC Driver, Spock and SLF4J Dependencies
       run: |
+        wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.47.0.0/sqlite-jdbc-3.47.0.0.jar -O /opt/sqlite-jdbc.jar
         wget https://repo1.maven.org/maven2/org/spockframework/spock-core/2.3-groovy-4.0/spock-core-2.3-groovy-4.0.jar -O /opt/spock-core.jar
         wget https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar -O /opt/slf4j-simple.jar
 
     - name: Set CLASSPATH for Groovy Tests
       run: echo "CLASSPATH=/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar" >> $GITHUB_ENV
+
+    - name: Install Missing Dependencies
+      run: sudo apt-get install -y bash
 
     - name: Verify Environment Setup
       run: |
@@ -48,6 +49,7 @@ jobs:
 
     - name: Run Test
       working-directory: SharedLibrary.Jenkins
+      shell: bash
       run: |
         groovy Tests/SqlLiteInMemoryTests.groovy  
         groovy Tests/FeatureConfigDbModuleTests.groovy  
