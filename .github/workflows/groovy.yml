@@ -2,6 +2,7 @@ name: Groovy Pipe
 
 on:
   push:
+    paths: [ SharedLibrary.Jenkins/** ]
     branches: [ '*' ]
 
   workflow_dispatch:
@@ -13,5 +14,17 @@ jobs:
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v4
-    - name: ls
-      run: ls
+    - name: Install Groovy
+      run: |
+        apt install zip unzip  
+        wget https://www.apache.org/dyn/closer.lua/groovy/4.0.9/distribution/apache-groovy-binary-4.0.9.zip?action=download
+        unzip apache-groovy-binary-4.0.9.zip\?action\=download -d /opt
+        PATH="$PATH:/opt/groovy-4.0.9/bin"
+        rm -rf apache-groovy-binary-4.0.9.zip\?action\=download
+        wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.47.0.0/sqlite-jdbc-3.47.0.0.jar -O /opt/sqlite-jdbc.jar
+        wget https://repo1.maven.org/maven2/org/spockframework/spock-core/2.3-groovy-4.0/spock-core-2.3-groovy-4.0.jar -O /opt/spock-core.jar
+        wget https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar -O /opt/slf4j-simple.jar
+        CLASSPATH="/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar"
+    - name: Run Test
+      run: |
+        groovy Tests/FeatureConfigDbModuleTests.groovy  

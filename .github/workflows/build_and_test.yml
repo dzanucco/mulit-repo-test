@@ -2,6 +2,7 @@ name: Build & Test
 
 on:
   push:
+    paths: [ VisualStudio.DotNet/** ]
     branches: [ '*' ]
 
   workflow_dispatch:
