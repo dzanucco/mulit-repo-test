@@ -18,6 +18,7 @@ jobs:
     - name: Install OpenJDK
       run: |
         sudo apt update
+        sudo apt upgrade
         sudo apt install -y openjdk-17-jre
         echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
         echo "PATH=$PATH:/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_ENV
