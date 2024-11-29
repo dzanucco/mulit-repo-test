@@ -58,4 +58,5 @@ jobs:
 
     - name: Run Test
       run: |
-        /opt/groovy-4.0.9/bin/groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
+        cd SharedLibrary.Jenkins
+        groovy Tests/FeatureConfigDbModuleTests.groovy  
