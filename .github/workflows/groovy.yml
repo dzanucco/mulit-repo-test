@@ -55,8 +55,8 @@ jobs:
         java -version
         groovy -version
         pwsh -v
-        nuget
 
     - name: Run Test
       run: |
-        /opt/groovy-4.0.9/bin/groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
+        cd SharedLibrary.Jenkins
+        /opt/groovy-4.0.9/bin/groovy Tests/FeatureConfigDbModuleTests.groovy  
