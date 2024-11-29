@@ -15,38 +15,48 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install default JRE
-      run: sudo apt update && sudo apt install -y default-jre
-
-    - name: Set JAVA_HOME environment variable
+    - name: Install OpenJDK
       run: |
+        sudo apt update
+        sudo apt install -y default-jre
         echo "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $GITHUB_ENV
         echo "PATH=$PATH:/usr/lib/jvm/java-17-openjdk-amd64/bin" >> $GITHUB_ENV
-      shell: bash
 
-    - name: Export JAVA_HOME and PATH
+    - name: Install Groovy
       run: |
-        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-        export PATH=$JAVA_HOME/bin:$PATH
+        sudo apt install -y zip unzip
+        wget https://www.apache.org/dyn/closer.lua/groovy/4.0.9/distribution/apache-groovy-binary-4.0.9.zip?action=download -O groovy.zip
+        unzip groovy.zip -d /opt
+        echo "PATH=$PATH:/opt/groovy-4.0.9/bin" >> $GITHUB_ENV
+        rm -rf groovy.zip
 
-    - name: Verify Java installation
-      run: |
-        echo $JAVA_HOME
-        java -version
+    - name: Install SQLite JDBC Driver
+      run: wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.47.0.0/sqlite-jdbc-3.47.0.0.jar -O /opt/sqlite-jdbc.jar
 
-    - name: Install Groovy & Test Framework
+    - name: Install Spock and SLF4J Dependencies
       run: |
-        wget https://www.apache.org/dyn/closer.lua/groovy/4.0.9/distribution/apache-groovy-binary-4.0.9.zip?action=download
-        unzip apache-groovy-binary-4.0.9.zip\?action\=download -d /opt
-        PATH="$PATH:/opt/groovy-4.0.9/bin"
-        rm -rf apache-groovy-binary-4.0.9.zip\?action\=download
-        wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.47.0.0/sqlite-jdbc-3.47.0.0.jar -O /opt/sqlite-jdbc.jar
         wget https://repo1.maven.org/maven2/org/spockframework/spock-core/2.3-groovy-4.0/spock-core-2.3-groovy-4.0.jar -O /opt/spock-core.jar
         wget https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/2.0.9/slf4j-simple-2.0.9.jar -O /opt/slf4j-simple.jar
 
-    - name: Set CLASSPATH environment variable
+    - name: Set CLASSPATH for Groovy Tests
       run: echo "CLASSPATH=/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar" >> $GITHUB_ENV
+
+    - name: Install PowerShell
+      run: |
+        wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.2/powershell_7.4.2-1.deb_amd64.deb -O powershell.deb
+        sudo dpkg -i powershell.deb || sudo apt-get install -f -y
+        rm powershell.deb
+
+    - name: Install NuGet
+      run: sudo apt install -y nuget
+
+    - name: Verify Environment Setup
+      run: |
+        java -version
+        groovy -version
+        pwsh -v
+        nuget
 
     - name: Run Test
       run: |
-        /opt/groovy-4.0.9/bin/groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
+        groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
