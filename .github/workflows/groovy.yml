@@ -16,8 +16,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: Install Groovy
       run: |
-        sudo apt-get update
-        sudo apt-get install zip unzip  
         wget https://www.apache.org/dyn/closer.lua/groovy/4.0.9/distribution/apache-groovy-binary-4.0.9.zip?action=download
         unzip apache-groovy-binary-4.0.9.zip\?action\=download -d /opt
         PATH="$PATH:/opt/groovy-4.0.9/bin"
@@ -28,4 +26,4 @@ jobs:
         CLASSPATH="/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar"
     - name: Run Test
       run: |
-        /opt/groovy-4.0.9/bin/groovy Tests/FeatureConfigDbModuleTests.groovy  
+        /opt/groovy-4.0.9/bin/groovy Groovy/Tests/FeatureConfigDbModuleTests.groovy  
