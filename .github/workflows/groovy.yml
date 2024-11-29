@@ -10,10 +10,15 @@ on:
 
 jobs:
   groovy:
-    name: Groovy Tests
+    name: Groovy Tests & Test Framework
     runs-on: [ ubuntu-latest ]
     steps:
     - uses: actions/checkout@v4
+    - name: Install Java JRE
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y default-jre
+
     - name: Install Groovy
       run: |
         wget https://www.apache.org/dyn/closer.lua/groovy/4.0.9/distribution/apache-groovy-binary-4.0.9.zip?action=download
