@@ -47,5 +47,7 @@ jobs:
         groovy -version
 
     - name: Run Test
+      working-directory: SharedLibrary.Jenkins
       run: |
-        groovy SharedLibrary.Jenkins/Tests/SqlLiteInMemoryTests.groovy  
+        groovy Tests/SqlLiteInMemoryTests.groovy  
+        groovy Tests/FeatureConfigDbModuleTests.groovy  
