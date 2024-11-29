@@ -54,4 +54,9 @@ jobs:
       run: |
         java -version
         groovy -version
-        pwsh -v 
+        pwsh -v
+
+    - name: Run Test
+      run: |
+        cd SharedLibrary.Jenkins
+        /opt/groovy-4.0.9/bin/groovy Tests/FeatureConfigDbModuleTests.groovy  
