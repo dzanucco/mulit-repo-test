@@ -45,9 +45,7 @@ jobs:
       run: |
         java -version
         groovy -version
-        groovyc -d Modules SharedLibrary.Jenkins/Modules/*.groovy
 
     - name: Run Test
       run: |
-        cd SharedLibrary.Jenkins
-        groovy Tests/FeatureConfigDbModuleTests.groovy  
+        groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
