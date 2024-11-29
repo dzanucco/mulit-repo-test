@@ -48,4 +48,4 @@ jobs:
 
     - name: Run Test
       run: |
-        groovy SharedLibrary.Jenkins/Tests/FeatureConfigDbModuleTests.groovy  
+        groovy SharedLibrary.Jenkins/Tests/SqlLiteInMemoryTests.groovy  

@@ -1,4 +1,4 @@
-package Modules
+package modules
 
 import javax.sql.DataSource
 import org.sqlite.SQLiteDataSource
