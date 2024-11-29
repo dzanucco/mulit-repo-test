@@ -1,4 +1,4 @@
-package modules
+package Modules
 
 import javax.sql.DataSource
 import java.sql.Connection

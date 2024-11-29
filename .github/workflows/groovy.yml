@@ -41,20 +41,11 @@ jobs:
     - name: Set CLASSPATH for Groovy Tests
       run: echo "CLASSPATH=/opt/sqlite-jdbc.jar:/opt/spock-core.jar:/opt/slf4j-simple.jar" >> $GITHUB_ENV
 
-    - name: Install PowerShell
-      run: |
-        wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.2/powershell_7.4.2-1.deb_amd64.deb -O powershell.deb
-        sudo dpkg -i powershell.deb || sudo apt-get install -f -y
-        rm powershell.deb
-
-    - name: Install NuGet
-      run: sudo apt install -y nuget
-
     - name: Verify Environment Setup
       run: |
         java -version
         groovy -version
-        pwsh -v
+        groovyc -d Modules SharedLibrary.Jenkins/Modules/*.groovy
 
     - name: Run Test
       run: |
